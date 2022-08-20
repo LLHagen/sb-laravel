@@ -1,8 +1,8 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ArticleFormRequest;
 use App\Models\Article;
-use Illuminate\Http\Request;
 
 class ArticleController extends Controller
 {
@@ -18,24 +18,42 @@ class ArticleController extends Controller
         return view('articles.create');
     }
 
+    public function edit(Article $article)
+    {
+        return view('articles.edit', compact('article'));
+    }
+
+    public function update(ArticleFormRequest $request, Article $article)
+    {
+        $params = $request->validated();
+
+        $params["published"] = $request->has('published');
+
+        $article->update($params);
+
+        return redirect(route('articles.show', $article))->with('updated', true);
+    }
+
     public function show(Article $article)
     {
         return view('articles.show', compact('article'));
     }
 
-    public function store(Request $request)
+    public function store(ArticleFormRequest $request)
     {
-        $attributes = $request->validate([
-            'title' => 'required|unique:articles',
-            'slug' => 'required|unique:articles',
-            'preview' => 'required',
-            'description' => 'required',
-        ]);
+        $params = $request->validated();
 
-        $attributes['published'] = $request->input('published') ? 1 : 0;
+        $params["published"] = $request->has('published');
 
-        Article::create($attributes);
+        $article = Article::create($params);
 
-        return back();
+        return back()->with('created', !empty($article));;
+    }
+
+    public function destroy(Article $article)
+    {
+        $isDeleted = $article->delete();
+
+        return redirect(route('articles.list'))->with('deleted', $isDeleted);
     }
 }

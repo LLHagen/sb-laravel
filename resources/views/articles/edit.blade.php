@@ -2,10 +2,6 @@
 
 @section('content')
 
-    @if (request()->session()->get('created') === true)
-        <x-alerts.success text="Статья создана!"/>
-    @endif
-
     <h3 class="pb-3 mb-4 font-italic border-bottom">
         Создать статью
     </h3>
@@ -20,11 +16,10 @@
         </div>
     @endif
 
-    <form method="post" action="{{route('articles.store')}}">
-
-    </form>
     <x-forms.article
-        action="{{route('articles.store')}}"
-        method="post"
+        action="{{route('articles.update', $article)}}"
+        method="PATCH"
+        :article="$article"
     />
+
 @endsection

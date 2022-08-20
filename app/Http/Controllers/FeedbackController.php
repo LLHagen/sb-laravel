@@ -16,7 +16,6 @@ class FeedbackController extends Controller
 
     public function create()
     {
-        dd(php_ini_loaded_file());
         return view('feedbacks.create');
     }
 
