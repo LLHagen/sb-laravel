@@ -27,7 +27,7 @@ class ArticleController extends Controller
     {
         $params = $request->validated();
 
-        $params["published"] = $request->has('published');
+        $params["published"] =  $request->get('published', false) == 1;
 
         $article->update($params);
 
@@ -43,7 +43,7 @@ class ArticleController extends Controller
     {
         $params = $request->validated();
 
-        $params["published"] = $request->has('published');
+        $params["published"] =  $request->get('published', false) == 1;
 
         $article = Article::create($params);
 

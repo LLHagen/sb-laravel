@@ -43,7 +43,7 @@
             class="form-check-input"
             name="published"
             @if((isset($article->published) && $article->published) || old('published'))
-                checked
+            value="1"
             @endif
         >
         <label class="form-check-label" for="published">Опубликовано</label>

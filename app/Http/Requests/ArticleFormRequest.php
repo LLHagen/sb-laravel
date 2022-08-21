@@ -34,6 +34,7 @@ class ArticleFormRequest extends FormRequest
             "slug" => "required|regex:/^[a-zA-Z0-9_-]+$/u|unique:articles" . $slugExceptionRule,
             "preview" => "required|max:255",
             "description" => "required",
+            "published" => "integer",
         ];
     }
 
