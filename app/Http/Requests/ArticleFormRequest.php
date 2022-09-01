@@ -35,6 +35,7 @@ class ArticleFormRequest extends FormRequest
             "preview" => "required|max:255",
             "description" => "required",
             "published" => "integer",
+            "tags" => "string|nullable",
         ];
     }
 

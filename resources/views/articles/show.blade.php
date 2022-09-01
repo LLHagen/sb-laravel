@@ -28,6 +28,7 @@
         </div>
 
         <div class="blog-post p-3 mb-3 rounded">
+            @include('articles.tags', ['tags' => $article->tags])
             <p class="blog-post-meta">{{$article->created_at}}<!--<a href="#">Chris</a>--></p>
 
             <p class="mb-0">{{$article->description}}</p>

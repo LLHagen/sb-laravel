@@ -3,12 +3,29 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ArticleFormRequest;
 use App\Models\Article;
+use App\Models\Tag;
+use App\Services\TagsSynchronizer;
 
 class ArticleController extends Controller
 {
+    private $tagsSynchronizer;
+
+    public function __construct(
+        TagsSynchronizer $tagsSynchronizer
+    )
+    {
+        $this->tagsSynchronizer = $tagsSynchronizer;
+    }
+
     public function index()
     {
-        $articles = Article::all()->where('published','=', true)->sortDesc();
+        $articles = Article::with('tags')
+            ->where('published','=', true)
+            ->get()
+            ->sortByDesc(function($article){
+                return $article->created_at;
+            })
+        ;
 
         return view('articles.index', compact('articles'));
     }
@@ -31,6 +48,10 @@ class ArticleController extends Controller
 
         $article->update($params);
 
+        $tags = collect(explode(',', $request->get('tags' , '')));
+
+        $this->tagsSynchronizer->sync($tags, $article);
+
         return redirect(route('articles.show', $article))->with('updated', true);
     }
 
@@ -46,6 +67,10 @@ class ArticleController extends Controller
         $params["published"] =  $request->get('published', false) == 1;
 
         $article = Article::create($params);
+
+        $tags = collect(explode(',', $request->get('tags' , '')));
+
+        $this->tagsSynchronizer->sync($tags, $article);
 
         return back()->with('created', !empty($article));;
     }
