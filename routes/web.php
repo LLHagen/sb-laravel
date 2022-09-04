@@ -1,10 +1,13 @@
 <?php
 
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\ArticleTagController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\FeedbackController;
 
+Route::get('/articles/tags/{tag}', [ArticleTagController::class, 'index'])
+    ->name('articles.tags');
 Route::get('/', [ArticleController::class, 'index'])
     ->name('articles.list');
 Route::resource('articles', ArticleController::class);
