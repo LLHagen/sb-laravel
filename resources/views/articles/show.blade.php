@@ -14,16 +14,19 @@
                 <h3 class="pb-3 mb-2 font-italic mr-auto">
                     {{$article->title}}
                 </h3>
-                <nav class="blog-pagination mr-2 mt-2">
-                    <a class="btn btn-outline-primary" href="{{route('articles.edit', $article)}}">Редактировать</a>
-                </nav>
-                <form class="mt-2" method="POST" action="{{ route('articles.destroy', $article) }}">
-                    @csrf
-                    @method('delete')
-                    <nav class="blog-pagination">
-                        <input type="submit" class="btn btn-outline-danger" value="Удалить">
+                @if (!empty($user = auth()->user()) && $user->can('change', $article))
+                    <nav class="blog-pagination mr-2 mt-2">
+                        <a class="btn btn-outline-primary" href="{{route('articles.edit', $article)}}">Редактировать</a>
                     </nav>
-                </form>
+                    <form class="mt-2" method="POST" action="{{ route('articles.destroy', $article) }}">
+                        @csrf
+                        @method('delete')
+                        <nav class="blog-pagination">
+                            <input type="submit" class="btn btn-outline-danger" value="Удалить">
+                        </nav>
+                    </form>
+                @endif
+
             </div>
         </div>
 

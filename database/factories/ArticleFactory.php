@@ -8,11 +8,6 @@ use Illuminate\Support\Str;
 
 class ArticleFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array
-     */
     public function definition()
     {
         $title = $this->faker->sentence($nbWords = 6, $variableNbWords = true);
