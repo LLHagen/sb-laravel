@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ArticleTagController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\FeedbackController;
@@ -23,3 +24,5 @@ Route::prefix('admin')->group(function () {
     Route::get('feedbacks', [FeedbackController::class, 'index'])
         ->name('feedback.index');
 });
+
+Auth::routes();

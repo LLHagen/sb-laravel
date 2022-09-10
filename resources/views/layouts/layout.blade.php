@@ -26,20 +26,23 @@
 
 
 
-    <main role="main" class="container">
-        <div class="row">
-            <div class="col-md-8 blog-main">
+    @section('main')
+        <main role="main" class="container">
+            <div class="row">
+                @section('row-main')
+                    <div class="col-md-8 blog-main">
+                            @yield('content')
+                    </div><!-- /.blog-main -->
+                @show
 
-                @yield('content')
+                @section('sidebar')
+                    @include('layouts.sidebar')
+                @show
 
-            </div><!-- /.blog-main -->
+            </div><!-- /.row -->
 
-            @include('layouts.sidebar')
-
-        </div><!-- /.row -->
-
-    </main><!-- /.container -->
-
+        </main><!-- /.container -->
+    @show
 
 
 

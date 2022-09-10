@@ -7,5 +7,6 @@
     "/js/bootstrap.min.js": "/js/bootstrap.min.js",
     "/js/holder.min.js": "/js/holder.min.js",
     "/js/jquery-3.3.1.slim.min.js": "/js/jquery-3.3.1.slim.min.js",
+    "/js/jquery-migrate-1.4.1.min.js": "/js/jquery-migrate-1.4.1.min.js",
     "/js/popper.min.js": "/js/popper.min.js"
 }

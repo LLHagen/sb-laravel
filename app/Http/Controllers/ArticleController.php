@@ -5,6 +5,7 @@ use App\Http\Requests\ArticleFormRequest;
 use App\Models\Article;
 use App\Models\Tag;
 use App\Services\TagsSynchronizer;
+use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends Controller
 {
@@ -15,6 +16,8 @@ class ArticleController extends Controller
     )
     {
         $this->tagsSynchronizer = $tagsSynchronizer;
+        $this->middleware('auth', ['only' => ['store','create']]);
+        $this->middleware('can:change,article', ['only' => ['edit','update','destroy']]);
     }
 
     public function index()
@@ -35,6 +38,28 @@ class ArticleController extends Controller
         return view('articles.create');
     }
 
+    public function show(Article $article)
+    {
+        return view('articles.show', compact('article'));
+    }
+
+    public function store(ArticleFormRequest $request)
+    {
+        $params = $request->validated();
+
+        $params['published'] =  $request->get('published', false) == 1;
+
+        $params['owner_id'] = auth()->user()->id;
+
+        $article = Article::create($params);
+
+        $tags = collect(explode(',', $request->get('tags' , '')));
+
+        $this->tagsSynchronizer->sync($tags, $article);
+
+        return back()->with('created', !empty($article));;
+    }
+
     public function edit(Article $article)
     {
         return view('articles.edit', compact('article'));
@@ -53,26 +78,6 @@ class ArticleController extends Controller
         $this->tagsSynchronizer->sync($tags, $article);
 
         return redirect(route('articles.show', $article))->with('updated', true);
-    }
-
-    public function show(Article $article)
-    {
-        return view('articles.show', compact('article'));
-    }
-
-    public function store(ArticleFormRequest $request)
-    {
-        $params = $request->validated();
-
-        $params["published"] =  $request->get('published', false) == 1;
-
-        $article = Article::create($params);
-
-        $tags = collect(explode(',', $request->get('tags' , '')));
-
-        $this->tagsSynchronizer->sync($tags, $article);
-
-        return back()->with('created', !empty($article));;
     }
 
     public function destroy(Article $article)

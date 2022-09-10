@@ -15,7 +15,13 @@
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/holder.min.js"></script>
 
+{{--<script type="text/javascript">--}}
 
+
+{{--    $("#navbarDropdown").click( function() {--}}
+{{--        $('.dropdown-toggle').dropdown();--}}
+{{--    });--}}
+{{--</script>--}}
 
 
 <script>

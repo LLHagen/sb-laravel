@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,7 +16,10 @@ class CreateArticlesTable extends Migration
             $table->text('preview');
             $table->text('description');
             $table->boolean('published')->default(false);
+            $table->bigInteger('owner_id')->unsigned();
+            $table->foreign('owner_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
+
         });
     }
 
