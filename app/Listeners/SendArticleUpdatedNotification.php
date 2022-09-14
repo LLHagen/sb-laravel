@@ -10,6 +10,6 @@ class SendArticleUpdatedNotification
 {
     public function handle(EventArticleUpdated $event)
     {
-        Mail::to(env('MAIL_ADMIN'))->send(new MailArticleUpdated($event->article));
+        Mail::to(config('mail.to.admin.address'))->send(new MailArticleUpdated($event->article));
     }
 }
