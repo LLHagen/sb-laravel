@@ -3,9 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ArticleFormRequest;
 use App\Models\Article;
-use App\Models\Tag;
 use App\Services\TagsSynchronizer;
-use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends Controller
 {
