@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Article;
 use App\Models\Feedback;
+use App\Models\Role;
 use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Sequence;
@@ -20,12 +21,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        User::create([
-            'name' => 'Игорь Смирнов',
-            'email' => 'igor-smirnov-94@mail.ru',
-            'email_verified_at' => now(),
-            'password' => Hash::make('123123'), // password
-            'remember_token' => Str::random(10),
+        Role::create([
+            'name' => 'Moderator',
+            'slug' => 'moderator',
+            'description' => '',
+        ]);
+        Role::create([
+            'name' => 'User',
+            'slug' => 'user',
+            'description' => '',
         ]);
 
         Feedback::factory(10)->create();
@@ -48,5 +52,11 @@ class DatabaseSeeder extends Seeder
             $article->tags()->attach($randTagsKeys);
         }
 
+        $roles = Role::all();
+        $rolesIds = $roles->modelKeys();
+        foreach (User::all() as $user) {
+            $randRolesKeys = array_rand(array_flip($rolesIds));
+            $user->roles()->attach($randRolesKeys);
+        }
     }
 }
