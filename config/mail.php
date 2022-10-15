@@ -115,4 +115,11 @@ return [
         ],
     ],
 
+    'to' => [
+        'admin' => [
+            'address' => env('MAIL_ADMIN', 'hello@example.com'),
+            'name' => 'Admin',
+        ],
+    ],
+
 ];
