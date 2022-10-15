@@ -13,9 +13,6 @@
                     {{$article->title}}
                 </h3>
                 @if (!empty($user = auth()->user()) && $user->can('change', $article))
-{{--                    <nav class="blog-pagination mr-2 mt-2">--}}
-{{--                        <a class="btn btn-outline-primary" href="{{route('articles.edit', $article)}}">Редактировать</a>--}}
-{{--                    </nav>--}}
                     @isAdmin
                         <nav class="blog-pagination mr-2 mt-2">
                             <a class="btn btn-outline-primary" href="{{route('admin.articles.edit', $article)}}">Редактировать</a>
