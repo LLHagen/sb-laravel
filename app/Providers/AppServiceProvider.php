@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App\Models\Tag;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\View;
@@ -33,7 +32,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Blade::directive('isAdmin', function () {
-            return '<?php $user = Auth::user(); if (!empty($user) && $user->isAdmin()): ?>';
+            return '<?php $user = \Illuminate\Support\Facades\Auth::user(); if (!empty($user) && $user->isAdmin()): ?>';
         });
         Blade::directive('elseIsAdmin', function () {
             return "<?php else: ?>";
