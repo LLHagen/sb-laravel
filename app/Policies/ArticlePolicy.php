@@ -12,6 +12,11 @@ class ArticlePolicy
 
     public function change(User $user, Article $article): bool
     {
-        return $user->id === $article->owner_id;
+        return $user->id === $article->owner_id || $user->isAdmin();
+    }
+
+    public function view(User $user, Article $article): bool
+    {
+        return $article->published || $this->change($user, $article);
     }
 }

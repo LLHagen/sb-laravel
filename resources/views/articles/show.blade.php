@@ -7,17 +7,21 @@
     @endif
 
     <div class="p-0 m-0">
-
-        {{--        title       --}}
         <div class="border-bottom">
             <div class="d-flex justify-content-between">
                 <h3 class="pb-3 mb-2 font-italic mr-auto">
                     {{$article->title}}
                 </h3>
                 @if (!empty($user = auth()->user()) && $user->can('change', $article))
-                    <nav class="blog-pagination mr-2 mt-2">
-                        <a class="btn btn-outline-primary" href="{{route('articles.edit', $article)}}">Редактировать</a>
-                    </nav>
+                    @isAdmin
+                        <nav class="blog-pagination mr-2 mt-2">
+                            <a class="btn btn-outline-primary" href="{{route('admin.articles.edit', $article)}}">Редактировать</a>
+                        </nav>
+                    @elseIsAdmin
+                        <nav class="blog-pagination mr-2 mt-2">
+                            <a class="btn btn-outline-primary" href="{{route('articles.edit', $article)}}">Редактировать</a>
+                        </nav>
+                    @endIsAdmin
                     <form class="mt-2" method="POST" action="{{ route('articles.destroy', $article) }}">
                         @csrf
                         @method('delete')

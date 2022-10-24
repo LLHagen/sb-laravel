@@ -15,6 +15,7 @@ class ArticleController extends Controller
     {
         $this->tagsSynchronizer = $tagsSynchronizer;
         $this->middleware('auth', ['only' => ['store','create']]);
+        $this->middleware(['can:view,article'], ['only' => ['show']]);
         $this->middleware('can:change,article', ['only' => ['edit','update','destroy']]);
     }
 

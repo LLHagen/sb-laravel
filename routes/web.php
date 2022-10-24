@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminArticleController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ArticleTagController;
 use Illuminate\Support\Facades\Auth;
@@ -20,9 +21,15 @@ Route::get('/contacts', [FeedbackController::class, 'create'])
 Route::post('/contacts', [FeedbackController::class, 'store'])
     ->name('feedback.store');
 
-Route::prefix('admin')->group(function () {
-    Route::get('feedbacks', [FeedbackController::class, 'index'])
-        ->name('feedback.index');
+Route::prefix('admin')
+    ->name('admin.')
+    ->middleware('admin')
+    ->group(function () {
+        Route::get('feedbacks', [FeedbackController::class, 'index'])
+            ->name('feedback.index');
+        Route::resource('articles', AdminArticleController::class);
+        Route::patch('articles/published/{article}', [AdminArticleController::class, 'articlesPublished'])
+            ->name('articles.published');
 });
 
 Auth::routes();

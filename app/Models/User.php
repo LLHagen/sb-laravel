@@ -11,7 +11,8 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 /**
  * @property integer $id
- * @property integer $email
+ * @property string $name
+ * @property string $email
  */
 class User extends Authenticatable
 {
@@ -36,5 +37,21 @@ class User extends Authenticatable
     public function articles(): HasMany
     {
         return $this->hasMany(Article::class);
+    }
+
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
+    public function isAdmin(): bool
+    {
+        foreach ($this->roles()->get() as $role) {
+            if ($role->slug == 'admin') {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
